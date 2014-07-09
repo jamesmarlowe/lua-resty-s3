@@ -1,0 +1,23 @@
+
+        location /s3/upload/ {
+            internal;
+            resolver 8.8.8.8;
+            set_unescape_uri $date $arg_date;
+            set_unescape_uri $auth $arg_auth;
+            set_unescape_uri $file $arg_file;
+            set_unescape_uri $mime $arg_mime;
+
+            proxy_pass_request_headers off;
+            more_clear_headers 'Host';
+            more_clear_headers 'Connection';
+            more_clear_headers 'Content-Length';
+            more_clear_headers 'User-Agent';
+            more_clear_headers 'Accept';
+
+            proxy_set_header Date $date;
+            proxy_set_header Authorization $auth;
+            proxy_set_header content-type $mime;
+            proxy_set_header Content-MD5 '';
+
+            proxy_pass http://s3.amazonaws.com:80$file;
+        }

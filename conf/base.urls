@@ -1,0 +1,12 @@
+
+        location = /proxy/ {
+            internal;
+
+            set_unescape_uri $my_host $arg_host;
+            set_unescape_uri $my_uri $arg_uri;
+
+            resolver 8.8.8.8;
+
+            proxy_set_header User-Agent 'Mozilla/5.0 (X11; Linux x86_64; rv:16.0)';
+            proxy_pass http://$my_host:80$my_uri;
+        }
