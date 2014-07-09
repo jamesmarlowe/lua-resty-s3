@@ -12,7 +12,11 @@ Table of Contents
 * [Synopsis](#synopsis)
 * [Methods](#methods)
     * [new](#new)
+    * [generate_auth_headers](#generate_auth_headers)
+    * [try_upload](#try_upload)
     * [upload_url](#upload_url)
+    * [extract_urls](#extract_urls)
+    * [upload_content](#upload_content)
 * [Limitations](#limitations)
 * [Installation](#installation)
 * [TODO](#todo)
@@ -61,15 +65,35 @@ new
 ---
 `syntax: s3, err = s3:new(id, key)`
 
-Creates a uploading object. In case of failures, returns `nil` and a string describing the error.
+Creates an uploading object. In case of failures, returns `nil` and a string describing the error.
 
 [Back to TOC](#table-of-contents)
 
-upload_url_to_s3
-----------------
-`syntax: final_url, err = s3:upload_url(file_url, bucket, object_name, check_for_existance, add_to_existance)
+generate_auth_headers
+---------------------
+`syntax: s3, err = s3:generate_auth_headers(content_type, destination)`
 
-`syntax: final_url, err = s3:upload_url("http://lorempixel.com/400/200/", "examplebucket", "lorempixel400x200")`
+`syntax: s3, err = s3:generate_auth_headers("binary/octet-stream", "/examplebucket/lorempixel400x200")`
+
+Creates the headers needed for authentication with amazon. In case of failures, returns `nil` and a string describing the error.
+
+[Back to TOC](#table-of-contents)
+
+try_upload
+----------
+`syntax: s3, err = s3:try_upload(content, destination, content_type, headers)`
+
+`syntax: s3, err = s3:try_upload([[<h1>Hello</h1>]], "/examplebucket/hello", "text/html", headers)`
+
+Attempts to upload content to s3. In case of failures, returns `nil` and a string describing the error.
+
+[Back to TOC](#table-of-contents)
+
+upload_url
+----------
+`syntax: final_url, err = s3:upload_url(file_url, bucket, object_name, check_for_existance, add_to_existance)`
+
+`syntax: final_url, err = s3:upload_url("http://lorempixel.com/400/200/", "/examplebucket/", "lorempixel400x200")`
 
 Attempts to upload content to s3 from the url set by file_url and the id/key set with new(). If object_name is supplied then that will be the name of the new file, otherwise it will hash the file_url to create a unique key for it.
 
@@ -88,10 +112,30 @@ add = function (name)
   return true
 end
 
-final_url, err = s3:upload_url("http://lorempixel.com/400/200/", "examplebucket", "lorempixel400x200", check, add)
+final_url, err = s3:upload_url("http://lorempixel.com/400/200/", "/examplebucket/", "lorempixel400x200", check, add)
 ```
 
 In case of success, returns the new url. In case of errors, returns `nil` with a string describing the error.
+
+[Back to TOC](#table-of-contents)
+
+extract_urls
+------------
+`syntax: s3, err = s3:extract_urls(file_content, bucket)`
+
+`syntax: s3, err = s3:extract_urls([[<ahref="www.google.com"><img src="http://lorempixel.com/output/city-q-g-640-480-4.jpg" /></a>]], "/examplebucket/")`
+
+Attempts to find and upload urls from within source. In case of failures, returns `nil` and a string describing the error.
+
+[Back to TOC](#table-of-contents)
+
+upload_content
+--------------
+`syntax: s3, err = s3:upload_content(file_content, bucket, object_name, check_for_existance, add_to_existance)`
+
+`syntax: s3, err = s3:upload_content([[<ahref="www.google.com"><img src="http://lorempixel.com/output/city-q-g-640-480-4.jpg" /></a>]], "/examplebucket/", "city.jpg")`
+
+Attempts to upload content to s3 (handles all auth automatically). In case of failures, returns `nil` and a string describing the error.
 
 [Back to TOC](#table-of-contents)
 

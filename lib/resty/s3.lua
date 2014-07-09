@@ -158,7 +158,7 @@ function _M.extract_urls(self, file_content, bucket)
 end
 
 
-function _M.upload_media_to_s3(self, file_content, bucket, object_name, check_for_existance, add_to_existance)
+function _M.upload_content(self, file_content, bucket, object_name, check_for_existance, add_to_existance)
     local id, key = self.id, self.key
     
     if not id or not key then
