@@ -192,9 +192,10 @@ function _M.upload_media_to_s3(self, file_content, bucket, object_name, check_fo
     local resp = self:try_upload(file_content, destination, content_type, headers)
     
     if resp.status == 200 then
-        ad_crids:add(file_hash, final_url.."|"..adomain)
-        new_ad_crids:add(file_hash, final_url.."|"..adomain)
-        return final_url, file_hash, adomain
+        if add_to_existance then
+            add_to_existance(object_name)
+        end
+        return final_url
     else
         return nil, "could not upload"
     end
