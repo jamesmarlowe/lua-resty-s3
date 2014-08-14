@@ -5,7 +5,8 @@ local xxhash = require "xxhash"
 local url = require "socket.url"
 local hmac = require "hmac"
 local hash_seed = 0x1db1e298
-local upload_url = "/s3/upload/"
+local upload_url = "/lua-resty-s3/upload/"
+local proxy_url = "/lua-resty-s3/proxy/"
 
 
 local ok, new_tab = pcall(require, "table.new")
@@ -100,7 +101,7 @@ function _M.upload_url(self, file_url, bucket, object_name, check_for_existance,
     end
     
     file_url = url.parse(file_url)
-    file_content = ngx.location.capture("/proxy/", {args={host=file_url.host,uri=file_url.path}})
+    file_content = ngx.location.capture(proxy_url, {args={host=file_url.host,uri=file_url.path}})
     
     if file_content.status == 200 then 
         local headers = self:generate_auth_headers(content_type, destination)

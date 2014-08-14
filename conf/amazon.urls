@@ -1,5 +1,5 @@
 
-        location /s3/upload/ {
+        location /lua-resty-s3/upload/ {
             internal;
             resolver 8.8.8.8;
             set_unescape_uri $date $arg_date;
