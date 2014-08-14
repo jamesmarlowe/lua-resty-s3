@@ -22,6 +22,11 @@
                 
                 local params = ngx.req.get_query_args()
                 
+                if not params.aws_id or not params.aws_key then
+                    ngx.say("no aws id or key")
+                    ngx.exit(1)
+                end
+                
                 local ms3, err = s3:new(params.aws_id, params.aws_key)
                 
                 if err then ngx.say(err) ngx.exit(1) end
