@@ -10,3 +10,25 @@
             proxy_set_header User-Agent 'Mozilla/5.0 (X11; Linux x86_64; rv:16.0)';
             proxy_pass http://$my_host:80$my_uri;
         }
+        
+        location = /lua-resty-s3/test/ {
+            internal;
+            
+            set_unescape_uri $my_host $arg_host;
+            set_unescape_uri $my_uri $arg_uri;
+            
+            content_by_lua '
+                local s3 = require "s3"
+                
+                local params = ngx.req.get_query_args()
+                
+                local ms3, err = s3:new(params.aws_id, params.aws_key)
+                
+                if err then ngx.say(err) ngx.exit(1) end
+
+                local final_url, err = ms3:upload_url("http://lorempixel.com/400/200/", "examplebucket", "lorempixel400x200")
+                
+                if err then ngx.say(err) ngx.exit(1) end
+
+            ';
+        }
