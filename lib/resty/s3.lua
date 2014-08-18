@@ -104,8 +104,8 @@ function _M.upload_url(self, file_url, bucket, object_name, check_for_existance,
     file_content = ngx.location.capture(proxy_url, {args={host=file_url.host,uri=file_url.path}})
     
     if file_content.status == 200 then 
-        local headers = self:generate_auth_headers(content_type, destination)
-        if not headers then return headers, err end
+        local headers, err = self:generate_auth_headers(content_type, destination)
+        if not headers then return nil, err end
         
         local res = self:try_upload(file_content.body, destination, content_type, headers)
 
@@ -187,8 +187,8 @@ function _M.upload_content(self, file_content, bucket, object_name, check_for_ex
 
     file_content = self:extract_urls(file_content, bucket)
     
-    headers, err = self:generate_auth_headers(self, content_type, destination)
-    if not headers then return headers, err end
+    headers, err = self:generate_auth_headers(content_type, destination)
+    if not headers then return nil, err end
     
     local resp = self:try_upload(file_content, destination, content_type, headers)
     
