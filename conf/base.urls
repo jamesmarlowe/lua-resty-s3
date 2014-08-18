@@ -30,7 +30,19 @@
 
                 local final_url, err = ms3:upload_url("http://lorempixel.com/400/200/", params.aws_bucket, "lorempixel400x200")
                 
-                if err then ngx.say(err) ngx.exit(ngx.OK) end
+                if err then
+                    ngx.say(err)
+                else
+                    ngx.say("File uploaded at: "..final_url)
+                end
+                
+                
+                local final_url, err = ms3:upload_content([[<img src="http://lorempixel.com/400/200/city/" />]], params.aws_bucket, "city")
 
+                if err then
+                    ngx.say(err)
+                else
+                    ngx.say("File uploaded at: "..final_url)
+                end
             ';
         }
