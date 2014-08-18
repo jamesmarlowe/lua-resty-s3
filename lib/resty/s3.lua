@@ -116,7 +116,7 @@ function _M.upload_url(self, file_url, bucket, object_name, check_for_existance,
             
             return final_url
         else
-            return nil, "could not upload"
+            return nil, "Could not upload: "..resp.status.." "..resp.body
         end
     else
         return nil, "could not get url: "..url.build(file_url)
@@ -198,7 +198,7 @@ function _M.upload_content(self, file_content, bucket, object_name, check_for_ex
         end
         return final_url
     else
-        return nil, "could not upload"
+        return nil, "Could not upload: "..resp.status.." "..resp.body
     end
 end
 
