@@ -28,7 +28,7 @@
                 
                 if err then ngx.say(err) ngx.exit(ngx.OK) end
 
-                local final_url, err = ms3:upload_url("http://lorempixel.com/400/200/", "examplebucket", "lorempixel400x200")
+                local final_url, err = ms3:upload_url("http://lorempixel.com/400/200/", params.aws_bucket, "lorempixel400x200")
                 
                 if err then ngx.say(err) ngx.exit(ngx.OK) end
 
