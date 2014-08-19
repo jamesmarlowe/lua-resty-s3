@@ -153,7 +153,7 @@ function _M.extract_urls(self, file_content, bucket)
                 
             end
         end
-        pos = sp + 1
+        pos = (sp or (#file_content -1)) + 1
     end
     
     return file_content
