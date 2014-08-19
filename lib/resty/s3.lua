@@ -100,7 +100,7 @@ function _M.upload_url(self, file_url, bucket, object_name, check_for_existance,
         return final_url
     end
     
-    file_url = url.parse(file_url)
+    file_url = url.parse(file_url:gsub([["]],""))
     file_content = ngx.location.capture(proxy_url, {args={host=file_url.host,uri=file_url.path}})
     
     if file_content.status == 200 then 
