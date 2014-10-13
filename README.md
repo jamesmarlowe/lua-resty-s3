@@ -148,8 +148,9 @@ Limitations
 
 Installation
 ============
+You can install it with luarocks `luarocks install lua-resty-s3`
 
-If you are using your own nginx + ngx_lua build, then you need to configure the lua_package_path directive to add the path of your lua-nginx-loggin source to ngx_lua's LUA_PATH search path, as in
+Otherwise you need to configure the lua_package_path directive to add the path of your lua-nginx-loggin source to ngx_lua's LUA_PATH search path, as in
 
 ```nginx
     # nginx.conf
