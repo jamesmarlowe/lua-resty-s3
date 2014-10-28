@@ -3,7 +3,7 @@
 
 local xxhash = require "xxhash"
 local url = require "socket.url"
-local hmac = require "hmac"
+local hmac = require "resty.hmac"
 local hash_seed = 0x1db1e298
 local upload_url = "/lua-resty-s3/upload/"
 local proxy_url = "/lua-resty-s3/proxy/"
